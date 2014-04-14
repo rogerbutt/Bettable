@@ -1,0 +1,174 @@
+@font-face {
+    font-family: "BebasNeue";
+    src: url('../fonts/BebasNeue.otf');
+}
+
+.container {
+  max-width: 1024px;
+}
+
+.btn {
+  border-radius: 0px !important;
+  border: none;
+  font-family: "BebasNeue";
+}
+
+#newpool input {
+  width: 100%;
+  border: 1px solid #999999;
+}
+
+#newpool textarea {
+  width: 100%;
+  border: 1px solid #999999;
+}
+
+#newpool .row {
+  padding-bottom: 5px;
+}
+
+#newpool a {
+  color: white;
+  text-decoration: none;
+}
+
+#main {
+  color: white;
+}
+
+#main .center-wrapper {
+  margin-top: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 730px;
+}
+
+#main .center-wrapper h3 {
+  padding-left: 7px;
+}
+
+#main h1 {
+  font-size: 17em;
+  font-family: "BebasNeue";
+  margin-top: -20px;
+  margin-bottom: -60px;
+}
+
+#main h3 {
+  font-family: "HelveticaNeue-Thin";
+  font-size: 4em;
+}
+
+#main .btn {
+  width: 100%;
+  height: 50px;
+  padding-top: 11px;
+  font-size: 1.4em;
+}
+
+#newpool {
+  color: white;
+  font-family: "HelveticaNeue-Thin";
+  font-size: 1.5em;
+  text-align: right;
+}
+
+#newpool h1 {
+  font-family: "BebasNeue";
+  font-size: 5em;
+  text-align: center;
+}
+
+#newpool .button-row {
+  text-align: center;
+}
+
+#newpool .btn {
+  font-family: "BebasNeue";
+  font-size: 1.4em;
+  border-radius: 0px;
+  border: none;
+  width: 200px;
+  height: 50px;
+}
+
+#views {
+  color: white;
+  padding-top: 50px;
+}
+
+#views h1 {
+  font-family: "BebasNeue";
+  font-size: 5em;
+  text-align: center;
+}
+
+#views .tile {
+  width: 240px;
+  height: 240px;
+  background-color: white;
+  float: left;
+  margin-right: 8px;
+  padding: 5px;
+}
+
+#views .title {
+  font-family: "BebasNeue";
+  font-size: 2.5em;
+  color: #252525;
+}
+
+#views .desc {
+  color: black;
+  font-family: "HelveticaNeue-Thin";
+}
+
+#pool {
+  color: white;
+  font-family: "HelveticaNeue-Thin";
+  margin-top: 50px;
+}
+
+#pool h1 {
+  font-family: "BebasNeue";
+  font-size: 4em;
+}
+
+#pool .poolcontent {
+  color: #454545;
+  background-color: white;
+  padding: 10px;
+}
+
+#pool .poolcontent h5 {
+  font-weight: normal;
+  font-size: 1.5em;
+}
+
+#pool .poolcontent .btn {
+  background-color: #428bca;
+  color: white;
+  font-size: 1.4em;
+}
+
+#pool .poolinfo {
+  text-align: center;
+}
+
+#pool .winbutton {
+  float: left;
+  margin-right: 10px;
+}
+
+.backbutton {
+  position: absolute;
+  top: 20px;
+  color: white;
+  text-decoration: none;
+}
+
+body {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("../images/background-dark.jpg");
+}

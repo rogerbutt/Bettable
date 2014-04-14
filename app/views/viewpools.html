@@ -1,0 +1,18 @@
+<a href="/#/" class="backbutton">Back</a>
+
+<div id="views">
+
+  <h1>What are you betting on?</h1>
+
+  <div ng-show="pools.length == 0" style="text-align: center">Nothing here!</div>
+
+  <div ng-hide="pools.length == 0">
+    <div ng-repeat="pool in pools">
+      <a href="/#/pool/{{pool.key}}"><div class="tile">
+        <p class="title">{{pool.name}}</p>
+        <p class="desc">{{pool.desc}}</p>
+      </div></a>
+    </div>
+  </div>
+
+</div>

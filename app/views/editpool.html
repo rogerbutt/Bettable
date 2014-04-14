@@ -1,0 +1,54 @@
+<a href="/#/pool/{{pool.key}}" class="backbutton">Back</a>
+
+<div id="newpool" ng-hide="finished">
+
+  <h1>Edit Pool</h1>
+
+  <p ng-show="saved" style="text-align: center">Saved edits!</p>
+
+  <form novalidate class="css-form">
+    <div class="row">
+      <div class="col-md-3">Name:</div>
+      <div class="col-md-9"><input type="text" ng-model="pool.name" value="{{pool.name}}" /></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">Description:</div>
+      <div class="col-md-9"><textarea ng-model="pool.desc" value="{{pool.desc}}"></textarea></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">Win Condition(s):</div>
+      <div class="col-md-9"><textarea ng-model="pool.win" value="{{pool.win}}"></textarea></div>
+    </div>
+
+    <div ng-repeat="option in pool.options">
+
+      <div class="row">
+        <div class="col-md-3">Option {{$index+1}}:</div>
+        <div class="col-md-9"><input type="text" ng-model="option.name" value="{{option.name}}"/></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">Description:</div>
+        <div class="col-md-9"><textarea ng-model="option.desc" value="{{option.desc}}"></textarea></div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">End Date:</div>
+      <div class="col-md-9"><input type="date" ng-model="pool.date" value="{{pool.date}}" /></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">End Time:</div>
+      <div class="col-md-9"><input type="time" ng-model="pool.time" value="{{pool.time}}"/></div>
+    </div>
+
+    <div class="button-row">
+      <a class="btn btn-default" ng-click="addOption()" style="color: black">Add Option</a>
+      <a class="btn btn-primary" ng-click="editPool()">Save</a>
+    </div>
+  </form>
+</div>
