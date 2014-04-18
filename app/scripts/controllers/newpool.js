@@ -1,13 +1,33 @@
 'use strict';
 
 angular.module('assignment4App')
-  .controller('NewpoolCtrl', function ($scope, $firebase) {
+  .controller('NewpoolCtrl', [ '$scope', '$firebase', 'loginService', function ($scope, $firebase, loginService) {
+
+    // Get the database
+    var database = $firebase(new Firebase('https://rgbq-assignment3.firebaseio.com/pools'));
+    var userbase = $firebase(new Firebase('https://rgbq-assignment3.firebaseio.com/users'));
+
+
+    $scope.companies = [];
+    var user;
+    loginService.getUser(function(id) {
+      user = id;
+      console.log(user);
+
+      userbase.$on('loaded', function() {
+        var comps = userbase[user].companies;
+        comps.forEach(function(name) {
+          $scope.companies.push(name);
+        });
+      });
+    });
 
     // Finished flag
     $scope.finished = false;
 
     // The betting pool model
     $scope.pool = {
+      'admin': '',
       'name': '',
       'desc': '',
       'win': '',
@@ -44,9 +64,6 @@ angular.module('assignment4App')
       // Get the date
       var date = new Date();
 
-      // Get the database
-      var database = $firebase(new Firebase('https://rgbq-assignment3.firebaseio.com/pools'));
-
       // Check if the time is set
       if( $scope.pool.time === 0 ) {
         $scope.pool.time = date.getHours() + ':' + date.getMinutes();
@@ -58,6 +75,8 @@ angular.module('assignment4App')
                         (date.getMonth()+1) + '-' +
                         date.getDate();
       }
+
+      $scope.pool.admin = user;
 
       // Add the data and set the key
       database.$add($scope.pool).then(function(ref) {
@@ -71,4 +90,4 @@ angular.module('assignment4App')
 
     };
 
-  });
+  }]);

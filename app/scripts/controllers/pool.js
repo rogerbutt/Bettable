@@ -1,22 +1,46 @@
 'use strict';
 
 angular.module('assignment4App')
-  .controller('PoolCtrl', [ '$scope', '$routeParams', '$firebase', function ($scope, $routeParams, $firebase) {
+  .controller('PoolCtrl', [ '$scope', '$routeParams', '$firebase', 'loginService', 'usersService', function ($scope, $routeParams, $firebase, loginService, usersService) {
+
     $scope.pool = $firebase(new Firebase('https://rgbq-assignment3.firebaseio.com/pools/' + $routeParams.key));
+    $scope.admin = false;
+    $scope.betted = false;
+
+    var username;
+
+    loginService.getUser(function(id) {
+      usersService.userInfo(id, function(data) {
+        $scope.user = data;
+        if($scope.user.uid === $scope.pool.admin)
+          $scope.admin = true;
+        username = $scope.user.first + ' ' + $scope.user.last;
+
+        $scope.pool.$on('loaded', function() {
+          usersService.checkBet($scope.user.uid, $scope.pool.key, function(val) {
+            $scope.betted = $scope.betted || val;
+          });
+        });
+      });
+    });
 
     /**
      * Add a bettor
      */
-    $scope.addBet = function(option, name, val) {
+    $scope.addBet = function(option, val) {
 
       // Reject non number values
       if( (!isNaN(parseFloat(val)) && isFinite(val)) === false ) {
         return;
       }
 
+      var userid;
+      var data;
+
       // Set up the better object
       var bettor = {
-        'name': name,
+        'name': $scope.user.first + ' ' + $scope.user.last,
+        'uid': $scope.user.uid,
         'val': val
       };
 
@@ -38,8 +62,12 @@ angular.module('assignment4App')
       // Update the model
       $scope.pool.$save();
 
+      // Keep track of the bets made
+      usersService.madeBet($scope.user.uid, $scope.pool.key);
+
       // Flip the flag to hide the bettor input
       $scope.bet = false;
+      $scope.betted = true;
     };
 
     /**
@@ -79,12 +107,51 @@ angular.module('assignment4App')
       var winnings = $scope.pool.pot - option.val;
 
       // Calculate winnings for each person
-      for( var i = 0; i < option.betters.length; i++ ) {
-        console.log(option.betters[i].name + " won " + (winnings * (option.betters[i].val/option.val)).toString() );
+      if( option.betters !== undefined ) {
+        for( var i = 0; i < option.betters.length; i++ ) {
+          usersService.addWinnings(option.betters[i].uid, winnings*(option.betters[i].val/option.val) + option.betters[i].val);
+        }
       }
 
       // Update the model and set the winner
       $scope.pool.$save();
+    };
+
+    $scope.workers = [];
+
+    var dataRef = new Firebase('https://rgbq-assignment3.firebaseio.com/companies/');
+    var workerRef = $firebase(dataRef);
+
+    var temp;
+    workerRef.$on('loaded', function() {
+      var comps = workerRef.$getIndex();
+      for( var i = 0; i < comps.length; i++) {
+        if($scope.pool.company === workerRef[comps[i]].name) {
+          temp = workerRef[comps[i]].users;
+          break;
+        }
+      }
+      for( i = 0; i < temp.length; i++ ) {
+        if( temp[i].uid !== username )
+          $scope.workers.push(temp[i].name);
+      }
+    });
+
+    $scope.invite = function() {
+      for( var i = 0; i < $scope.invites.length; i++ ) {
+        for( var j = 0; j < temp.length; j++ ) {
+          if( $scope.invites[i] === temp[j].name ) {
+            usersService.sendInvite(temp[j].uid, $scope.pool.name, $scope.pool.key);
+          }
+        }
+      }
+      $scope.invites = [];
+    };
+
+    $scope.select2Options = {
+        'multiple': true,
+        'simple_tags': true,
+        'tags': $scope.workers  // Can be empty list.
     };
 
   }]);

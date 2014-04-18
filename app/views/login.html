@@ -1,0 +1,22 @@
+<div id="main">
+  <div class="center-wrapper">
+    <h1>Bettable</h1>
+    <h3>Login and start winning money</h3>
+
+    <form role="form">
+      {{error}}
+      <div class="form-group">
+        <label for="emailInput">Email address</label>
+        <input ng-model="loginForm.email" class="form-control" id="emailInput" placeholder="Enter email" type="email">
+      </div>
+      <div class="form-group">
+        <label for="passwordInput">Password</label>
+        <input ng-model="loginForm.password" class="form-control" id="passwordInput" placeholder="Password" type="password">
+      </div>
+      <div class="row">
+        <div class="col-md-6"><input type="submit" class="btn btn-default" ng-click="login()" value="Login"></div>
+        <div class="col-md-6"><a class="btn btn-danger" href="/#/register">Register</a></div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -20,8 +20,17 @@
       <div class="col-md-9"><textarea ng-model="pool.win"></textarea></div>
     </div>
 
-    <div ng-repeat="option in pool.options">
+    <div class="row">
+      <div class="col-md-3">Company:</div>
+      <div class="col-md-9">
+        <select style="width: 100%;" ng-model="pool.company">
+          <option ng-repeat="company in companies" value="{{company}}">{{company}}</option>
+        </select>
+      </div>
+    </div>
 
+
+    <div ng-repeat="option in pool.options">
       <div class="row">
         <div class="col-md-3">Option {{$index+1}}:</div>
         <div class="col-md-9"><input type="text" ng-model="option.name" /></div>

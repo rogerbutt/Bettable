@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('assignment4App')
-  .controller('ViewpoolsCtrl', function ($scope, $firebase) {
+  .controller('ViewpoolsCtrl', [ '$scope', '$firebase', 'loginService', 'usersService', function ($scope, $firebase, loginService, usersService) {
 
     // Load the database of pools
     var database = $firebase(new Firebase('https://rgbq-assignment3.firebaseio.com/pools'));
@@ -13,8 +13,13 @@ angular.module('assignment4App')
     $scope.pools = [];
 
     // Loop through and add data
-    keys.forEach(function(key, i) {
-      $scope.pools.push(database[key]);
-      //console.log(key);
+    loginService.getUser(function(id) {
+      usersService.userInfo(id, function(user) {
+        keys.forEach(function(key, i) {
+          if(database[key].company === user.companies[0])
+            $scope.pools.push(database[key]);
+          //console.log(key);
+        });
+      });
     });
-  });
+  }]);

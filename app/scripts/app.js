@@ -5,7 +5,8 @@ angular.module('assignment4App', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'firebase'
+  'ui.select2',
+  'firebase',
 ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -28,6 +29,18 @@ angular.module('assignment4App', [
       .when('/edit/:key*', {
         templateUrl: 'views/editpool.html',
         controller: 'EditpoolCtrl'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+      .when('/register', {
+        templateUrl: 'views/register.html',
+        controller: 'RegisterCtrl'
+      })
+      .when('/usersettings', {
+        templateUrl: 'views/usersettings.html',
+        controller: 'UsersettingsCtrl'
       })
       .otherwise({
         redirectTo: '/'

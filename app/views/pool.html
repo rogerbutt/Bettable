@@ -3,7 +3,7 @@
 <div id="pool">
   <div class="row">
     <div class="col-md-10"><h1>{{pool.name}}</h1></div>
-    <div class="col-md-2" style="text-align: right; margin-top: 20px">
+    <div ng-show="admin" class="col-md-2" style="text-align: right; margin-top: 20px">
       <a href="/#/edit/{{pool.key}}" class="btn btn-default">Edit Pool</a>
     </div>
   </div>
@@ -12,21 +12,31 @@
     <h5>{{pool.desc}}</h5>
 
     <div class="row">
-      <div class="col-md-4 poolinfo">
+      <div class="col-md-3 poolinfo">
+        <h4>Company</h4>
+        <p>{{pool.company}}</p>
+      </div>
+      <div class="col-md-3 poolinfo">
         <h4>Pot Size</h4>
         <p>{{pool.pot}}</p>
       </div>
-      <div class="col-md-4 poolinfo">
+      <div class="col-md-3 poolinfo">
         <h4>Who's Playing</h4>
         <p>{{pool.betcount}}</p>
       </div>
-      <div class="col-md-4 poolinfo">
+      <div class="col-md-3 poolinfo">
         <h4>End Time</h4>
         <p>{{pool.date}} {{pool.time}}</p>
       </div>
     </div>
 
-    <div ng-show="checkDate()">
+    <div class="row" style="padding-left: 18px; padding-right: 18px" ng-hide="checkDate()">
+      <h3>Invite your coworkers!</h3>
+      <input ng-model="invites" style="width: 100%" placeholder="Invite Friends" ui-select2="select2Options" type="text" />
+      <a role="button" class="btn btn-default" ng-click="invite()">Invite</a>
+    </div>
+
+    <div ng-show="checkDate() && admin">
       <div ng-hide="pool.winselect">
         <h2>Select Winner</h2>
         <div ng-repeat="option in pool.options" class="winbutton">
@@ -34,9 +44,14 @@
         </div>
         <div style="clear:both"></div>
       </div>
-      <div ng-show="pool.winselect">
-        <h2>{{pool.winner}} won!</h2>
-      </div>
+    </div>
+
+    <div ng-show="pool.winselect">
+      <h2>{{pool.winner}} won!</h2>
+    </div>
+
+    <div ng-show="checkDate() && !admin && !pool.winselect">
+      <h3>Pool is over!</h3>
     </div>
 
     <div ng-hide="checkDate()">
@@ -48,13 +63,12 @@
         <div ng-repeat="bet in option.betters">
           {{bet.name}}, {{bet.val}}
         </div>
-        <div ng-hide="bet">
+        <div ng-hide="bet || betted">
           <a class="btn btn-default" ng-click="bet = !bet">Bet on {{option.name}}</a>
         </div>
         <div ng-show="bet">
-          Name: <input type="text" ng-model="betname"/>
           Value: <input type="text" ng-model="betval"/>
-          <a class="btn btn-default" ng-click="addBet(option, betname, betval)">Submit</a>
+          <a class="btn btn-default" ng-click="addBet(option, betval)">Submit</a>
         </div>
       </div>
     </div>

@@ -1,0 +1,40 @@
+<a href="/#/" class="backbutton">Back</a>
+
+<div id="newpool">
+  <h1>{{user.first}} {{user.last}}</h1>
+
+  <form novalidate class="css-form">
+    <div class="row">
+      <div class="col-md-3">First:</div>
+      <div class="col-md-9"><input type="text" ng-model="user.first" value="{{user.first}}" /></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">Last:</div>
+      <div class="col-md-9"><input type="text" ng-model="user.last" value="{{user.last}}" /></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">Email:</div>
+      <div class="col-md-9"><input type="email" ng-model="user.email"></div>
+    </div>
+
+    <div style="background-color: white; color: black; padding: 10px; margin-bottom: 10px;">
+      <div class="row">
+        <div class="col-md-3">Winnings:</div>
+        <div class="col-md-9" style="text-align: left">$ {{user.winnings}}</div>
+      </div>
+      <div ng-hide="user.invites">No invites!</div>
+      <div ng-repeat="invite in user.invites" class="row" style="text-align:left">
+        <div class="col-md-6"><p>You've been invited to the {{invite.name}} pool.</p></div>
+        <div class="col-md-2"><a class="btn btn-primary" href="/#/pool/{{invite.id}}">View Pool</a></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2"><a class="btn btn-primary" ng-click="remove($index)">Delete</a></div>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <a class="btn btn-primary" ng-click="editPool()">Save</a>
+    </div>
+  </form>
+</div>

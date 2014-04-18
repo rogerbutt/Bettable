@@ -1,6 +1,11 @@
 @font-face {
-    font-family: "BebasNeue";
+    font-family: "BebasNeue", Helvetica;
     src: url('../fonts/BebasNeue.otf');
+}
+
+label {
+  font-family: "BebasNeue", Helvetica;
+  font-size: 1.5em;
 }
 
 .container {
@@ -171,4 +176,19 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-image: url("../images/background-dark.jpg");
+}
+
+.select2-input {
+  border-radius: 4px;
+  padding: 0.5px 6px;
+}
+
+#userSettings {
+  padding-top: 20px;
+}
+
+#userSettings h2 {
+  color: white;
+  font-size: 6em;
+  font-family: "BebasNeue";
 }
