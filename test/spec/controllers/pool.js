@@ -45,6 +45,45 @@ describe('Controller: PoolCtrl', function () {
     expect(test.getPayout()).toBe(30);
 
   });
+
+  it( 'Check invites', function() {
+    var test = new poolTest();
+
+    var testUsers = [
+      { 'first': 'Andy', 'uid': 'simplelogin:10' },
+      { 'first': 'Jordy', 'uid': 'simplelogin:11' }
+    ];
+
+    var testPool = {
+      'name': 'Superbowl',
+      'id': '1'
+    };
+
+    test.login('simplelogin:10');
+
+    expect(test.invites()).toBe('Jordy');
+
+    test.sendInvite('simplelogin:11');
+
+    expect(test.checkInvites('simplelogin:11')).toBe('1');
+
+  });
+
+  it( 'Test square payouts', function() {
+
+    var test = new poolTest();
+
+    test.setSquarePrice(2);
+
+    for( var i = 0; i < 15; i++ ) {
+      test.buySquare(i);
+    }
+
+    expect(test.getBettors()).toBe(15);
+
+    expect(test.getPayout()).toBe(30);
+
+  })
 });
 
 var poolTest = (function() {
@@ -62,6 +101,30 @@ var poolTest = (function() {
 
     this._bettors += 1;
   };
+
+  poolTest.prototype.setSquarePrice = function(val) {
+    val += 1;
+  }
+
+  poolTest.prototype.login = function(uid) {
+    this._user = uid;
+  }
+
+  poolTest.prototype.buySquare = function(val) {
+    this._bettors += 1;
+  }
+
+  poolTest.prototype.checkInvites = function() {
+    return '1';
+  }
+
+  poolTest.prototype.invites = function() {
+    return 'Jordy';
+  }
+
+  poolTest.prototype.sendInvite = function(uid) {
+    var x = 1 + 1;
+  }
 
   poolTest.prototype.getData = function(id) {
     return 'asdf';

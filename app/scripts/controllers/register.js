@@ -10,7 +10,7 @@ angular.module('assignment4App')
                              $scope.registerForm.companies,
                              function(user, error) {
         if(user !== null) {
-          $location.path('/');
+          $location.path('/login');
         }
         else {
           $scope.error = error.code;

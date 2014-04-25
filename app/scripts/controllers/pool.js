@@ -63,7 +63,7 @@ angular.module('assignment4App')
       $scope.pool.$save();
 
       // Keep track of the bets made
-      usersService.madeBet($scope.user.uid, $scope.pool.key);
+      usersService.madeBet($scope.user.uid, $scope.pool.key, val);
 
       // Flip the flag to hide the bettor input
       $scope.bet = false;
@@ -122,19 +122,23 @@ angular.module('assignment4App')
     var dataRef = new Firebase('https://rgbq-assignment3.firebaseio.com/companies/');
     var workerRef = $firebase(dataRef);
 
-    var temp;
+    var temp = [];
+
     workerRef.$on('loaded', function() {
       var comps = workerRef.$getIndex();
-      for( var i = 0; i < comps.length; i++) {
-        if($scope.pool.company === workerRef[comps[i]].name) {
-          temp = workerRef[comps[i]].users;
-          break;
+      $scope.pool.$on('loaded', function() {
+        for( var i = 0; i < comps.length; i++) {
+          for( var j = 0; j < $scope.pool.companies.length; j++ ) {
+            if( $scope.pool.companies[j] === workerRef[comps[i]].name ) {
+              temp = temp.concat(workerRef[comps[i]].users);
+            }
+          }
         }
-      }
-      for( i = 0; i < temp.length; i++ ) {
-        if( temp[i].uid !== username )
-          $scope.workers.push(temp[i].name);
-      }
+        for( i = 0; i < temp.length; i++ ) {
+          if( temp[i].uid !== username )
+            $scope.workers.push(temp[i].name);
+        }
+      });
     });
 
     $scope.invite = function() {
@@ -146,6 +150,33 @@ angular.module('assignment4App')
         }
       }
       $scope.invites = [];
+    };
+
+    $scope.buySquare = function() {
+      $scope.pool.squares = $scope.pool.squares || [];
+      console.log('asdfasdfasdf');
+      if( $scope.pool.squares.length < 100 ) {
+        $scope.pool.squares.push({'id': $scope.user.uid, 'name': $scope.user.first + ' ' + $scope.user.last });
+        usersService.madeBet($scope.user.uid, $scope.pool.key, $scope.pool.squareP);
+
+        $scope.bet = false;
+        $scope.betted = true;
+
+        $scope.pool.betcount++;
+
+        $scope.pool.pot = parseInt($scope.pool.pot) + parseInt($scope.pool.squareP);
+
+        $scope.pool.$save();
+      }
+    };
+
+    $scope.squareWin = function(bettor) {
+      usersService.addWinnings(bettor.id, $scope.pool.pot);
+      $scope.pool.winselect = true;
+
+      $scope.pool.winner = bettor.name;
+
+      $scope.pool.$save();
     };
 
     $scope.select2Options = {

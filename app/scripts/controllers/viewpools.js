@@ -16,10 +16,14 @@ angular.module('assignment4App')
     loginService.getUser(function(id) {
       usersService.userInfo(id, function(user) {
         keys.forEach(function(key, i) {
-          if(database[key].company === user.companies[0])
-            $scope.pools.push(database[key]);
-          //console.log(key);
+          for( var i = 0; i < database[key].companies.length; i++ ) {
+            for( var j = 0; j < user.companies.length; j++ ) {
+              if( database[key].companies[i] === user.companies[j] )
+                $scope.pools.push(database[key]);
+            }
+          }
         });
+        $scope.$apply();
       });
     });
   }]);

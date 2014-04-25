@@ -22,7 +22,7 @@
       <div class="col-md-9"><textarea ng-model="pool.win" value="{{pool.win}}"></textarea></div>
     </div>
 
-    <div ng-repeat="option in pool.options">
+    <div ng-show="pool.type === 'regular'" ng-repeat="option in pool.options">
 
       <div class="row">
         <div class="col-md-3">Option {{$index+1}}:</div>

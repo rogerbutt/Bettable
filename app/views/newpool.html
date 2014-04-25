@@ -23,14 +23,26 @@
     <div class="row">
       <div class="col-md-3">Company:</div>
       <div class="col-md-9">
-        <select style="width: 100%;" ng-model="pool.company">
-          <option ng-repeat="company in companies" value="{{company}}">{{company}}</option>
+        <input ng-model="pool.companies" style="width: 100%" id="companyInput" ui-select2="select2Options" type="text">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">Pool Type:</div>
+      <div class="col-md-9">
+        <select style="width: 100%;" ng-model="pool.type">
+          <option value="regular">Regular</option>
+          <option value="square">Square</option>
         </select>
       </div>
     </div>
 
+    <div class="row" ng-show="pool.type === 'square'">
+      <div class="col-md-3">Square Price:</div>
+      <div class="col-md-9"><input type="text" ng-model="pool.squareP"/></div>
+    </div>
 
-    <div ng-repeat="option in pool.options">
+    <div ng-repeat="option in pool.options" ng-show="pool.type === 'regular'">
       <div class="row">
         <div class="col-md-3">Option {{$index+1}}:</div>
         <div class="col-md-9"><input type="text" ng-model="option.name" /></div>
@@ -40,7 +52,6 @@
         <div class="col-md-3">Description:</div>
         <div class="col-md-9"><textarea ng-model="option.desc"></textarea></div>
       </div>
-
     </div>
 
     <div class="row">

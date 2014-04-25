@@ -32,15 +32,16 @@ angular.module('assignment4App')
        },
        addWinnings: function(uid, val) {
          userRef.$on('loaded', function() {
-           userRef[uid].winnings = userRef[uid].winnings || 0;
-           userRef[uid].winnings += parseInt(val);
+           userRef[uid].balance = userRef[uid].balance || 0;
+           userRef[uid].balance += parseInt(val);
            userRef.$save();
          });
        },
-       madeBet: function(uid, poolkey) {
+       madeBet: function(uid, poolkey, val) {
          userRef.$on('loaded', function() {
            userRef[uid].bets = userRef[uid].bets || [];
            userRef[uid].bets.push(poolkey);
+           userRef[uid].balance -= val;
            userRef.$save();
          });
        },

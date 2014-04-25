@@ -19,10 +19,15 @@
       <div class="col-md-9"><input type="email" ng-model="user.email"></div>
     </div>
 
+    <div class="row">
+      <div class="col-md-3">Companies:</div>
+      <div class="col-md-9"><input ng-model="user.companies" style="width: 100%" ui-select2="select2Options" type="text"></div>
+    </div>
+
     <div style="background-color: white; color: black; padding: 10px; margin-bottom: 10px;">
       <div class="row">
-        <div class="col-md-3">Winnings:</div>
-        <div class="col-md-9" style="text-align: left">$ {{user.winnings}}</div>
+        <div class="col-md-3">Balance:</div>
+        <div class="col-md-9" style="text-align: left">$ {{user.balance}}</div>
       </div>
       <div ng-hide="user.invites">No invites!</div>
       <div ng-repeat="invite in user.invites" class="row" style="text-align:left">

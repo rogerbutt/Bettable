@@ -70,6 +70,44 @@ describe('Controller: NewpoolCtrl', function () {
     expect(test.getOptionCount()).toBe(4);
 
   });
+
+  it('Test square options', function() {
+
+    var test = new newPoolTest();
+
+    var fakePool = {
+      'name': 'asdf',
+      'desc': 'asdf',
+      'win': 'asdf',
+      'pot': 100,
+      'date': 0,
+      'time': 0,
+      'betcount': 0,
+      'winselect': false,
+      'squareP': 5,
+      'winner': null,
+      'options': [
+        {
+          'name': 'option 1',
+          'desc': 'asdf',
+          'betters': [],
+          'val': 0
+        },
+        {
+          'name': 'option 2',
+          'desc': 'asdf',
+          'betters': [],
+          'val': 0
+        }
+      ]
+    };
+
+    test.addPool(fakePool);
+
+    test.setFormat('square');
+
+    expect(test.getData('squareP')).toBe(5);
+  });
 });
 
 
@@ -83,15 +121,19 @@ var newPoolTest = (function() {
     this._data = data
   };
 
+  newPoolTest.prototype.setFormat = function(type) {
+
+  };
+
   newPoolTest.prototype.addOption = function( val ) {
     var option = { 'name': 'asdf', 'desc': 'option' };
     this._data.options;
-  }
+  };
 
   newPoolTest.prototype.getOptionCount = function() {
     this._options += 1;
     return this._options - 1;
-  }
+  };
 
   newPoolTest.prototype.getData = function(id) {
 

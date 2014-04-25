@@ -14,13 +14,16 @@ angular.module('assignment4App')
 
      return {
       login: function( emailadd, pass, callback ) {
+        console.log('asdf');
         loginObj.$login('password', {
            email: emailadd,
            password: pass
         }).then(function(user) {
-           callback(user.uid);
+          console.log('in');
+           callback(null);
         }, function(error) {
            console.error('Login failed: ', error);
+           callback(error);
         });
       },
       logout: function() {
@@ -48,7 +51,8 @@ angular.module('assignment4App')
             'email': emailadd,
             'first': first,
             'last': last,
-            'companies': usrcompanies
+            'companies': usrcompanies,
+            'balance': 500
           };
 
           var found = false;
