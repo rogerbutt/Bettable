@@ -6,6 +6,8 @@ angular.module('assignment4App')
     $scope.pool = $firebase(new Firebase('https://rgbq-assignment3.firebaseio.com/pools/' + $routeParams.key));
     $scope.admin = false;
     $scope.betted = false;
+    $scope.life = false;
+    $scope.roundBet = false;
 
     var username;
 
@@ -20,9 +22,61 @@ angular.module('assignment4App')
           usersService.checkBet($scope.user.uid, $scope.pool.key, function(val) {
             $scope.betted = $scope.betted || val;
           });
+
+          for(var i = 0; i < $scope.pool.survivors.length; i++) {
+            if($scope.pool.survivors[i].id === $scope.user.uid) {
+              $scope.life = true;
+
+              $scope.roundBet = $scope.pool.survivors[i].roundBet;
+              break;
+            }
+          }
         });
       });
     });
+
+    $scope.newRound = function(option) {
+
+      if($scope.pool.rounds < 0)
+        return;
+
+      $scope.pool.rounds--;
+
+      var temp = $scope.pool.options;
+      $scope.pool.options = [];
+      for(var i = 0; i < temp.length; i++) {
+        if(temp[i].name !== option.name) {
+          $scope.pool.options.push(temp[i]);
+        }
+      }
+
+      $scope.pool.survivors = [];
+      for(i = 0; i < $scope.pool.options.length; i++) {
+        if($scope.pool.options[i].betters === undefined)
+          continue;
+        console.log($scope.pool.options[i].name);
+        for(var j = 0; j < $scope.pool.options[i].betters.length; j++) {
+          $scope.pool.survivors.push({ 'name': $scope.pool.options[i].betters[j].name, 'id': $scope.pool.options[i].betters[j].uid, 'roundBet': false });
+        }
+      }
+
+      if($scope.pool.rounds <= 0) {
+        console.log('derp');
+        $scope.pool.win = [];
+
+        var val = $scope.pool.pot/$scope.pool.survivors.length;
+        console.log(val);
+        for(i = 0; i < $scope.pool.survivors.length; i++) {
+          console.log($scope.pool.survivors[i].name);
+          $scope.pool.win.push($scope.pool.survivors[i].name);
+          usersService.addWinnings($scope.pool.survivors[i].id, val);
+        }
+        $scope.pool.winselect = true;
+        console.log($scope.pool.win);
+      }
+
+      $scope.pool.$save();
+    };
 
     /**
      * Add a bettor
@@ -30,7 +84,7 @@ angular.module('assignment4App')
     $scope.addBet = function(option, val) {
 
       // Reject non number values
-      if( (!isNaN(parseFloat(val)) && isFinite(val)) === false ) {
+      if( $scope.pool.type === 'regular' && (!isNaN(parseFloat(val)) && isFinite(val)) === false ) {
         return;
       }
 
@@ -43,6 +97,32 @@ angular.module('assignment4App')
         'uid': $scope.user.uid,
         'val': val
       };
+
+      if($scope.pool.type === 'survivor') {
+
+        console.log('whut');
+
+        for(var i = 0; i < $scope.pool.survivors.length; i++) {
+          if($scope.pool.survivors[i].id === $scope.user.uid) {
+            $scope.pool.survivors[i].roundBet = true;
+            break;
+          }
+        }
+
+        $scope.bet = false;
+        $scope.betted = true;
+
+        // Check the bettor array
+        option.betters = option.betters || [];
+
+        // Add to the bettor array
+        option.betters.push(bettor);
+
+        $scope.roundBet = true;
+
+        $scope.pool.$save();
+        return;
+      }
 
       // Add the value to the total pot
       $scope.pool.pot += parseInt(val);
@@ -152,9 +232,24 @@ angular.module('assignment4App')
       $scope.invites = [];
     };
 
+    $scope.buySurv = function() {
+      $scope.pool.survivors = $scope.pool.survivors || [];
+      $scope.pool.survivors.push({'id': $scope.user.uid, 'name': $scope.user.first + ' ' + $scope.user.last, 'roundBet': false });
+      usersService.madeBet($scope.user.uid, $scope.pool.key, $scope.pool.squareP);
+      $scope.bet = false;
+      $scope.betted = true;
+      $scope.pool.betcount++;
+      $scope.pool.pot = parseInt($scope.pool.pot) + parseInt($scope.pool.squareP);
+      $scope.pool.$save();
+    }
+
+    $scope.endReg = function() {
+      $scope.pool.register = false;
+      $scope.pool.$save();
+    }
+
     $scope.buySquare = function() {
       $scope.pool.squares = $scope.pool.squares || [];
-      console.log('asdfasdfasdf');
       if( $scope.pool.squares.length < 100 ) {
         $scope.pool.squares.push({'id': $scope.user.uid, 'name': $scope.user.first + ' ' + $scope.user.last });
         usersService.madeBet($scope.user.uid, $scope.pool.key, $scope.pool.squareP);

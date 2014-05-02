@@ -13,6 +13,12 @@ angular.module('assignment4App')
            callback(userRef[uid]);
          });
        },
+       editUser: function(uid, user) {
+         userRef.$on('loaded', function() {
+           userRef[uid] = user;
+           userRef.$save();
+         });
+       },
        sendInvite: function(uid, poolname, poolid) {
          userRef.$on('loaded', function() {
            userRef[uid].invites = userRef[uid].invites || [];
@@ -43,6 +49,16 @@ angular.module('assignment4App')
            userRef[uid].bets.push(poolkey);
            userRef[uid].balance -= val;
            userRef.$save();
+         });
+       },
+       removeBet: function(uid, poolkey) {
+         userRef.$on('loaded', function() {
+           for(var i = 0; i < userRef[uid].bets.length; i++) {
+             if(poolkey === userRef[uid].bets[i]) {
+               userRef[uid].bets.splice(i, 1);
+               break;
+             }
+           }
          });
        },
        checkBet: function(uid, poolkey, callback) {

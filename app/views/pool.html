@@ -36,6 +36,51 @@
       <a role="button" class="btn btn-default" ng-click="invite()">Invite</a>
     </div>
 
+    <div ng-show="pool.type === 'survivor'">
+      <div ng-show="pool.register">
+        <div ng-hide="betted">
+          <h3>To play, register below for ${{pool.squareP}}</h3>
+          <input type="button" class="btn btn-default" ng-click="buySurv()" value="Register for pool" />
+        </div>
+
+        <div ng-show="betted">
+          <h3>You're registered!</h3>
+        </div>
+
+        <div ng-show="admin">
+          <br />
+          <a class="btn btn-default" ng-click="endReg()">End registration</a>
+        </div>
+      </div>
+
+      <div ng-hide="pool.register">
+        <div ng-hide="betted">
+          <h3>Sorry, pool's closed</h3>
+        </div>
+
+        <div ng-hide="pool.winselect">
+          <div ng-hide="roundBet">
+            <h3>Select a survivor for this round</h3>
+            <div ng-repeat="option in pool.options" class="winbutton">
+              <a class="btn btn-default" ng-click="addBet(option, 0)">{{option.name}}</a>
+            </div>
+            <div style="clear: both"></div>
+          </div>
+
+          <div ng-show="admin">
+            <h3>Choose round loser</h3>
+            <a class="btn btn-default" ng-repeat="option in pool.options" ng-click="newRound(option)" style="margin: 5px">{{option.name}}</a>
+          </div>
+        </div>
+
+        <div ng-show="pool.winselect">
+          <h3>Pool over. The winners:</h3>
+          <p ng-repeat="name in pool.win">{{name}}</p>
+        </div>
+      </div>
+
+    </div>
+
     <div ng-show="pool.type === 'square'">
       <div ng-hide="checkDate()">
         <div ng-hide="betted">
@@ -66,8 +111,6 @@
         </div>
       </div>
     </div>
-
-
 
     <div ng-show="pool.type === 'regular'">
 

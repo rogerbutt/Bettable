@@ -22,6 +22,20 @@
       <div class="col-md-9"><textarea ng-model="pool.win" value="{{pool.win}}"></textarea></div>
     </div>
 
+    <div ng-show="pool.type === 'survivor'" ng-repeat="option in pool.options">
+
+      <div class="row">
+        <div class="col-md-3">Option {{$index+1}}:</div>
+        <div class="col-md-9"><input type="text" ng-model="option.name" value="{{option.name}}"/></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">Description:</div>
+        <div class="col-md-9"><textarea ng-model="option.desc" value="{{option.desc}}"></textarea></div>
+      </div>
+
+    </div>
+
     <div ng-show="pool.type === 'regular'" ng-repeat="option in pool.options">
 
       <div class="row">

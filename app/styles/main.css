@@ -18,6 +18,19 @@ label {
   font-family: "BebasNeue";
 }
 
+.notification {
+  display: inline;
+  position: absolute;
+  right: 0px;
+  top: -15px;
+  border-radius: 9999px;
+  background-color: #F32800;
+  padding-top: 5px;
+  text-align: center;
+  height: 30px;
+  width: 30px;
+}
+
 #newpool input {
   width: 100%;
   border: 1px solid #999999;
@@ -81,6 +94,12 @@ label {
 #newpool h1 {
   font-family: "BebasNeue";
   font-size: 5em;
+  text-align: center;
+}
+
+h3 {
+  font-family: "BebasNeue";
+  font-size: 3em;
   text-align: center;
 }
 

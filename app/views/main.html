@@ -8,7 +8,10 @@
     <div class="row">
       <div class="col-md-4"><a class="btn btn-default" href="/#/NewPool">New Pool</a></div>
       <div class="col-md-4"><a class="btn btn-default" href="/#/ViewPools">View Pools</a></div>
-      <div class="col-md-4"><a class="btn btn-default" href="/#/usersettings">View Account</a></div>
+      <div class="col-md-4">
+        <div class="notification" ng-show="notifications !== 0">{{notifications}}</div>
+        <a class="btn btn-default" href="/#/usersettings">View Account</a>
+      </div>
     </div>
 
   </div>

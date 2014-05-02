@@ -39,7 +39,42 @@
     </div>
 
     <div class="button-row">
-      <a class="btn btn-primary" ng-click="editPool()">Save</a>
+      <a class="btn btn-primary" ng-click="save()">Save</a>
+    </div>
+
+    <h3>Edit User</h3>
+
+    <div class="row">
+      <div class="col-md-3">Edit User:</div>
+      <div class="col-md-9">
+        <select style="width: 100%" ng-model="editSelect">
+          <option ng-selected="loadEdit()" ng-repeat="user in company.users" value="{{user.uid}}">{{user.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">First:</div>
+      <div class="col-md-9"><input type="text" ng-model="editUser.first" value="{{user.first}}" /></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">Last:</div>
+      <div class="col-md-9"><input type="text" ng-model="editUser.last" value="{{user.last}}" /></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">Email:</div>
+      <div class="col-md-9"><input type="email" ng-model="editUser.email"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">Balance:</div>
+      <div class="col-md-9"><input type="text" ng-model="editUser.balance"></div>
+    </div>
+
+    <div class="button-row">
+      <a class="btn btn-primary" ng-click="save()">Save</a>
     </div>
   </form>
 </div>

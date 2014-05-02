@@ -45,6 +45,7 @@ angular.module('assignment4App')
       'date': 0,
       'time': 0,
       'betcount': 0,
+      'rounds': 0,
       'winselect': false,
       'winner': null,
       'squares': [],
@@ -79,6 +80,11 @@ angular.module('assignment4App')
       // Check if the time is set
       if( $scope.pool.time === 0 ) {
         $scope.pool.time = date.getHours() + ':' + date.getMinutes();
+      }
+
+      if( $scope.pool.type === 'survivor' ) {
+        $scope.pool.register = true;
+        $scope.pool.rounds = parseInt($scope.pool.rounds);
       }
 
       if( $scope.pool.type === 'square' ) {
